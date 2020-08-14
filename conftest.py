@@ -2,8 +2,6 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-link = ""
-
 
 def pytest_addoption(parser):
     parser.addoption('--browser_name', action='store', default="chrome",
@@ -13,22 +11,21 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture()
-def driver(request):
+def browser(request):
     user_language = request.config.getoption("language")
     driver_name = request.config.getoption("browser_name")
-    driver = None
+    browser = None
     if driver_name == "chrome":
         options = Options()
         options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
-        driver = webdriver.Chrome("driver/chromedriver.exe", options=options)
+        browser = webdriver.Chrome("driver/chromedriver.exe", options=options)
     elif driver_name == "firefox":
         fp = webdriver.FirefoxProfile()
         fp.set_preference("intl.accept_languages", user_language)
-        driver = webdriver.Firefox(executable_path="driver/geckodriver.exe", firefox_profile=fp)
+        browser = webdriver.Firefox(executable_path="driver/geckodriver.exe", firefox_profile=fp)
     else:
         raise pytest.UsageError("--browser_name should be chrome, firefox or edge")
-    driver.get(link)
-    driver.maximize_window()
-    yield driver
-    driver.quit()
+    browser.maximize_window()
+    yield browser
+    browser.quit()
 
