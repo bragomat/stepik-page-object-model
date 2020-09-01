@@ -15,6 +15,14 @@ class ProductPage(BasePage):
         message = self.browser.find_element(*ProductPageLocators.ITEM_ADDED_TO_BASKET_MESSAGE).text
         assert item_name == message, "Adding to basket message does not contain name of item"
 
+    def should_be_not_add_to_basket_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.ITEM_ADDED_TO_BASKET_MESSAGE),\
+            "Adding to basket message is present, but should not"
+
+    def should_be_disappeared_add_to_basket_message(self):
+        assert self.is_disappeared(*ProductPageLocators.ITEM_ADDED_TO_BASKET_MESSAGE), \
+            "Adding to basket message should to disappear, but it is not"
+
     def should_be_total_price_of_basket(self):
         item_price = self.browser.find_element(*ProductPageLocators.ITEM_PRICE).text
         assert self.is_element_present(*ProductPageLocators.TOTAL_PRICE_OF_BASKET_MESSAGE),\
