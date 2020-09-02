@@ -29,3 +29,4 @@ class ProductPage(BasePage):
             "Total price of message is not present"
         message = self.browser.find_element(*ProductPageLocators.TOTAL_PRICE_OF_BASKET_MESSAGE).text
         assert item_price in message, "Total price is not price of item"
+
